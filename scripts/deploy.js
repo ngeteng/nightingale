@@ -18,10 +18,10 @@ async function main() {
     SECURE_WALLET_ADDRESS
   );
 
-  // INI BAGIAN YANG DIPERBAIKI
   await rescueVault.waitForDeployment(); 
 
-  console.log(`✅ Kontrak RescueVault berhasil di-deploy ke alamat: ${rescueVault.address}`);
+  // INI BAGIAN YANG DIPERBAIKI
+  console.log(`✅ Kontrak RescueVault berhasil di-deploy ke alamat: ${await rescueVault.getAddress()}`);
   console.log("Simpan alamat ini baik-baik!");
 }
 
