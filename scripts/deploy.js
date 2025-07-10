@@ -1,4 +1,5 @@
 const hre = require("hardhat");
+const fs = require("fs"); // 1. Import modul 'fs'
 require("dotenv").config();
 
 async function main() {
@@ -20,9 +21,25 @@ async function main() {
 
   await rescueVault.waitForDeployment(); 
 
-  // INI BAGIAN YANG DIPERBAIKI
-  console.log(`✅ Kontrak RescueVault berhasil di-deploy ke alamat: ${await rescueVault.getAddress()}`);
-  console.log("Simpan alamat ini baik-baik!");
+  const contractAddress = await rescueVault.getAddress();
+  console.log(`✅ Kontrak RescueVault berhasil di-deploy ke alamat: ${contractAddress}`);
+
+  // --- 2. BAGIAN PENTING YANG DITAMBAHKAN ---
+  // Menyiapkan data untuk disimpan
+  const contractInfo = {
+    address: contractAddress,
+    // Membaca ABI langsung dari artefak kompilasi Hardhat
+    abi: hre.artifacts.readArtifactSync("RescueVault").abi
+  };
+
+  // Menulis data ke file 'contract-sepolia.json'
+  fs.writeFileSync(
+    "./contract-sepolia.json", 
+    JSON.stringify(contractInfo, null, 2)
+  );
+
+  console.log("💾 Informasi kontrak telah disimpan ke 'contract-sepolia.json'");
+  // --- SELESAI ---
 }
 
 main().catch((error) => {
