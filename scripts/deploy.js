@@ -1,4 +1,3 @@
-// scripts/deploy.js
 const hre = require("hardhat");
 require("dotenv").config();
 
@@ -19,7 +18,8 @@ async function main() {
     SECURE_WALLET_ADDRESS
   );
 
-  await rescueVault.deployed();
+  // INI BAGIAN YANG DIPERBAIKI
+  await rescueVault.waitForDeployment(); 
 
   console.log(`✅ Kontrak RescueVault berhasil di-deploy ke alamat: ${rescueVault.address}`);
   console.log("Simpan alamat ini baik-baik!");
